@@ -1,11 +1,14 @@
 package com.healthylife.restapi;
 
+import com.healthylife.restapi.service.FirebaseService;
 import kong.unirest.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.rmi.Naming;
+import java.util.concurrent.ExecutionException;
 
 import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.Brugeradmin;
@@ -13,6 +16,9 @@ import brugerautorisation.transport.rmi.Brugeradmin;
 @CrossOrigin(origins = {"http://localhost:4200", "https://antonoeschmidt.github.io"})
 @RestController
 public class RESTcontroller {
+
+    @Autowired
+    FirebaseService firebaseService;
 
     @PostMapping("/login")
     public boolean login(@RequestBody String login) throws Exception {
@@ -31,6 +37,12 @@ public class RESTcontroller {
         }
         return false;
     }
+
+    @PostMapping("/testpost")
+    public String testpost(@RequestBody String string) throws ExecutionException, InterruptedException {
+        return firebaseService.postData(string);
+    }
+
 
 
 
