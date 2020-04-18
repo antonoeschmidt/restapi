@@ -1,5 +1,7 @@
 package com.healthylife.restapi;
 
+import com.healthylife.restapi.model.TestObject;
+import com.healthylife.restapi.model.User;
 import com.healthylife.restapi.service.FirebaseService;
 import kong.unirest.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +41,14 @@ public class RESTcontroller {
     }
 
     @PostMapping("/testpost")
-    public String testpost(@RequestBody String string) throws ExecutionException, InterruptedException {
-        return firebaseService.postData(string);
+    public String testpost(@RequestBody User user) throws ExecutionException, InterruptedException {
+        return firebaseService.postData(user);
     }
 
+    @PostMapping("/newtestpost")
+    public String newTestpost(@RequestBody TestObject to) throws ExecutionException, InterruptedException {
+        return firebaseService.testPost(to);
+    }
 
 
 
