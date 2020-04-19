@@ -2,6 +2,7 @@ package com.healthylife.restapi;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.api.client.json.Json;
+import com.healthylife.restapi.model.Pupil;
 import com.healthylife.restapi.model.TestObject;
 import com.healthylife.restapi.model.User;
 import com.healthylife.restapi.service.FirebaseService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.rmi.Naming;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import brugerautorisation.data.Bruger;
@@ -66,6 +68,16 @@ public class RESTcontroller {
 
 
         return "get user";
+    }
+
+//    @GetMapping("/getallusers")
+//    public List<String> getAllUsers() throws InterruptedException {
+//        return firebaseService.getAllUsers();
+//    }
+
+    @GetMapping("/getallusers")
+    public List<Pupil> getAllUsers() throws InterruptedException {
+        return firebaseService.getAllUsers();
     }
 
 

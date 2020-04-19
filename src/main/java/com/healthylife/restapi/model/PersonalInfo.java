@@ -8,6 +8,8 @@ public class PersonalInfo {
     private String firstName, lastName, gender;
     private long dateOfBirth;
     private int zipCode;
+    private int age;
+
 
     public PersonalInfo(String firstName, String lastName, String gender, long dateOfBirth, int zipCode) {
         this.firstName = firstName;
@@ -15,6 +17,7 @@ public class PersonalInfo {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.zipCode = zipCode;
+        this.age = 10;
     }
 
     public PersonalInfo() {
@@ -23,13 +26,12 @@ public class PersonalInfo {
 
 
     public int getAge() throws NumberFormatException {
-        Date now = new Date(System.currentTimeMillis());
+        //Date now = new Date(System.currentTimeMillis());
 
-        long timeBetween = now.getTime() - dateOfBirth;
-        double yearsBetween = timeBetween / 3.15576e+10;
-        int age = (int) Math.floor(yearsBetween);
+        //long timeBetween = now.getTime() - dateOfBirth;
+        //double yearsBetween = timeBetween / 3.15576e+10;
+        //int age = (int) Math.floor(yearsBetween);
         return age;
-
     }
 
     public String getFirstName() {
@@ -71,5 +73,6 @@ public class PersonalInfo {
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
+
 }
 

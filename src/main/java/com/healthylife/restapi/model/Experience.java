@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Set;
 
 public class Experience {
-    private int level, nutritionXP, activityXP, socialXP, ticket;
+    private int level, nutritionXP, activityXP, socialXP, ticket, totalXP;
     private boolean  XPForCalories, XPForProtein, XPForCarbs, XPForFat;
 
     public Experience(int level, int nutritionXP, int activityXP, int socialXP, int ticket, boolean XPForCalories,
@@ -20,10 +20,15 @@ public class Experience {
         this.XPForProtein = XPForProtein;
         this.XPForCarbs = XPForCarbs;
         this.XPForFat = XPForFat;
+        this.totalXP = activityXP + nutritionXP + socialXP;
     }
 
     public Experience() {
         //må ikke slettes
+    }
+
+    public int getTotalXP() {
+        return totalXP;
     }
 
     public int getLevel() {
@@ -65,11 +70,6 @@ public class Experience {
         if (nutritionXP >= 0 && activityXP >= 0 && socialXP >= 0 && level > 0) {
             checkUpdatedX(2);
         }
-    }
-
-    public int getTotalXP() {
-        int totalXP = nutritionXP + activityXP + socialXP;
-        return totalXP;
     }
 
     public int getTicket() {
