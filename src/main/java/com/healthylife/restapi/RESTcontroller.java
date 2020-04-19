@@ -61,11 +61,12 @@ public class RESTcontroller {
 //        return json.toString();
     }
 
-    @GetMapping("/getuser")
-    public String getUser() {
-
-
-        return "get user";
+    @GetMapping("/getUsers")
+    public String getUsers() {
+        System.out.println("first step");
+        String json = firebaseService.getUsers();
+        System.out.println(json);
+        return json;
     }
 
 

@@ -1,20 +1,26 @@
 package com.healthylife.restapi.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
 import com.google.firestore.v1.WriteResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.healthylife.restapi.model.*;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONException;
 import kong.unirest.json.JSONObject;
+import org.apache.tomcat.jni.Thread;
 import org.springframework.stereotype.Service;
 
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Handler;
 
 @Service
 public class FirebaseService {
+
+    private String allUsersJson = "";
 
     public String postData(User user) throws ExecutionException, InterruptedException {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -24,6 +30,29 @@ public class FirebaseService {
 //        return apiFuture.get().toString();
         return "posted";
     }
+
+    public String getUsers() {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Gson gson = new Gson();
+                    String s1 = gson.toJson(dataSnapshot.getValue());
+                    allUsersJson = s1;
+                    System.out.println(allUsersJson);
+            }
+        }
+        @Override
+        public void onCancelled (DatabaseError databaseError){
+
+        }
+    });
+
+        return allUsersJson;
+}
 
     public String testPost(JSONObject json) throws ExecutionException, InterruptedException {
         Pupil pupil = JSONtoPupil(json);
@@ -52,9 +81,9 @@ public class FirebaseService {
 
         String s = json.toString();
 
-       // Gson gson = new Gson();
+        // Gson gson = new Gson();
         Pupil pupil = new Pupil();
-       //Pupil pupil = gson.fromJson(s, Pupil.class);
+        //Pupil pupil = gson.fromJson(s, Pupil.class);
 
         pupil.setUsername(json.getString("_username"));
         pupil.setPassword(json.getString("_password"));

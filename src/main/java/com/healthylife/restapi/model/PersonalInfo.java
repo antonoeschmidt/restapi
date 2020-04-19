@@ -32,6 +32,8 @@ public class PersonalInfo {
 
     }
 
+
+
     public String getFirstName() {
         return firstName;
     }
@@ -71,5 +73,9 @@ public class PersonalInfo {
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
+
+    public void setage(){}
+
+
 }
 
