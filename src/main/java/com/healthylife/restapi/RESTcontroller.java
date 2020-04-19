@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.rmi.Naming;
 import java.util.concurrent.ExecutionException;
 
 import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.Brugeradmin;
 
-@CrossOrigin(origins = {"http://localhost:4200", "https://antonoeschmidt.github.io"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201", "https://antonoeschmidt.github.io"})
 @RestController
 public class RESTcontroller {
 
@@ -46,11 +47,15 @@ public class RESTcontroller {
     }
 
     @PostMapping("/newtestpost")
-    public String newTestpost(@RequestBody TestObject to) throws ExecutionException, InterruptedException {
-        return firebaseService.testPost(to);
+    public String newTestpost(@RequestBody String testObject) throws ExecutionException, InterruptedException {
+        JSONObject json = new JSONObject(testObject);
+        System.out.println(json);
+        TestObject testObject1 = new TestObject(json.getString("testName"),
+                Integer.parseInt(json.getString("testAge")));
+//       return firebaseService.testPost(testObject1);
+//        return testObject.toString();
+        return json.toString();
     }
-
-
 
 
 }
