@@ -4,10 +4,13 @@ import com.google.api.core.ApiFuture;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firestore.v1.WriteResult;
+import com.healthylife.restapi.model.Pupil;
 import com.healthylife.restapi.model.TestObject;
 import com.healthylife.restapi.model.User;
+import kong.unirest.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.security.PublicKey;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -22,13 +25,18 @@ public class FirebaseService {
         return "posted";
     }
 
-    public String testPost(TestObject testObject) throws  ExecutionException, InterruptedException {
+    public String testPost(JSONObject json) throws  ExecutionException, InterruptedException {
+        String username = json.getString("_username");
+        System.out.println(username);
+
+
+        // Pupil pupil = new Pupil()
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference(testObject.getTestName());
-        ref.setValueAsync(testObject);
+        DatabaseReference ref = database.getReference(json.getString("_uid"));
+        ref.setValueAsync(json);
 
-
-        return "posted";
+        return json.toString();
     }
 
 

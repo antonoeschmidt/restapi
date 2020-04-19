@@ -1,14 +1,13 @@
 package com.healthylife.restapi;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.api.client.json.Json;
 import com.healthylife.restapi.model.TestObject;
 import com.healthylife.restapi.model.User;
 import com.healthylife.restapi.service.FirebaseService;
 import kong.unirest.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.rmi.Naming;
 import java.util.concurrent.ExecutionException;
@@ -16,7 +15,8 @@ import java.util.concurrent.ExecutionException;
 import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.Brugeradmin;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201", "https://antonoeschmidt.github.io"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201",
+        "http://localhost:4204", "https://antonoeschmidt.github.io"})
 @RestController
 public class RESTcontroller {
 
@@ -46,15 +46,26 @@ public class RESTcontroller {
         return firebaseService.postData(user);
     }
 
-    @PostMapping("/newtestpost")
+    @PostMapping("/saveuser")
     public String newTestpost(@RequestBody String testObject) throws ExecutionException, InterruptedException {
         JSONObject json = new JSONObject(testObject);
         System.out.println(json);
-        TestObject testObject1 = new TestObject(json.getString("testName"),
-                Integer.parseInt(json.getString("testAge")));
-//       return firebaseService.testPost(testObject1);
+
+//        TestObject testObject1 = new TestObject("testName",10);
+//        JSONObject json1 = new JSONObject(testObject1.toString());
+//        System.out.println(json1);
+
+       return firebaseService.testPost(json);
 //        return testObject.toString();
-        return json.toString();
+
+//        return json.toString();
+    }
+
+    @GetMapping("/getuser")
+    public String getUser() {
+
+
+        return "get user";
     }
 
 
