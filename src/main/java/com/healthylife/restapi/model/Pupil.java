@@ -127,5 +127,6 @@ public class Pupil extends User {
     public void setRewards(List<Reward> rewards) {
         this.rewards = rewards;
     }
+
 }
 

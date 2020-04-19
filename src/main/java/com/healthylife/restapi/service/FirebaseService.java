@@ -26,17 +26,28 @@ public class FirebaseService {
     }
 
     public String testPost(JSONObject json) throws  ExecutionException, InterruptedException {
+        Pupil pupil = JSONtoPupil(json);
+
         String username = json.getString("_username");
         System.out.println(username);
 
 
-        // Pupil pupil = new Pupil()
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference(json.getString("_uid"));
-        ref.setValueAsync(json);
+        ref.setValueAsync(pupil);
 
         return json.toString();
+    }
+
+    public Pupil JSONtoPupil(JSONObject json){
+        Pupil pupil = new Pupil();
+        pupil.setUsername(json.getString("_username"));
+        pupil.setPassword(json.getString("_password"));
+        pupil.setUID(json.getString("_uid"));
+
+        return pupil;
     }
 
 
