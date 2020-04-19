@@ -39,10 +39,11 @@ public class FirebaseService {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Gson gson = new Gson();
-                    String s1 = gson.toJson(dataSnapshot.getValue());
-                    allUsersJson = s1;
-                    System.out.println(allUsersJson);
+                    while (allUsersJson.isEmpty()) {
+                        Gson gson = new Gson();
+                        String s1 = gson.toJson(dataSnapshot.getValue());
+                        setAllUsersJson(s1);
+                    }
             }
         }
         @Override
@@ -50,9 +51,18 @@ public class FirebaseService {
 
         }
     });
-
+        try {
+            java.util.concurrent.TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        System.out.println(allUsersJson);
         return allUsersJson;
 }
+
+    public void setAllUsersJson(String allUsersJson) {
+        this.allUsersJson = allUsersJson;
+    }
 
     public String testPost(JSONObject json) throws ExecutionException, InterruptedException {
         Pupil pupil = JSONtoPupil(json);
