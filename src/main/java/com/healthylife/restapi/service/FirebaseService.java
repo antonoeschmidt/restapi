@@ -56,7 +56,6 @@ public class FirebaseService {
         } catch (InterruptedException e){
             e.printStackTrace();
         }
-        System.out.println(allUsersJson);
         return allUsersJson;
 }
 
