@@ -3,9 +3,7 @@ package com.healthylife.restapi.service;
 import com.google.api.core.ApiFuture;
 import com.google.firebase.database.*;
 import com.google.firestore.v1.WriteResult;
-import com.healthylife.restapi.model.Pupil;
-import com.healthylife.restapi.model.TestObject;
-import com.healthylife.restapi.model.User;
+import com.healthylife.restapi.model.*;
 import kong.unirest.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +26,11 @@ public class FirebaseService {
     }
 
     public String testPost(JSONObject json) throws ExecutionException, InterruptedException {
-        String username = json.getString("_username");
-        System.out.println(username);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference(json.getString("_uid"));
         System.out.println(ref);
-        ref.setValueAsync(json);
+        ref.setValueAsync(JSONtoPupil(json));
 
         return json.toString();
     }
@@ -97,5 +93,49 @@ public class FirebaseService {
         awaitResponse.acquire();
 
         return users;
+    }
+
+    public Pupil JSONtoPupil(JSONObject json) {
+
+        String s = json.toString();
+
+        Pupil pupil = new Pupil();
+
+        pupil.setUsername(json.getString("_username"));
+        pupil.setPassword(json.getString("_password"));
+        pupil.setUID(json.getString("_uid"));
+        pupil.setFirstTimeLoggedIn(json.getBoolean("_first_time_loggedin"));
+
+        //Kunne ikke få ting fra nested json objekter så lavede et nyt
+        Physique physique = new Physique();
+        JSONObject jsonObjectPhysique = json.getJSONObject("_physique");
+        physique.setHeight(jsonObjectPhysique.getDouble("_height"));
+        physique.setWeight(jsonObjectPhysique.getDouble("_weight"));
+        physique.setActivityLevel(jsonObjectPhysique.getInt("_activity_level"));
+        pupil.setPhysique(physique);
+
+        PersonalInfo personalInfo = new PersonalInfo();
+        JSONObject jsonObjectPersonalInfo = json.getJSONObject("_personalinfo");
+        personalInfo.setFirstName(jsonObjectPersonalInfo.getString("_firstName"));
+        personalInfo.setLastName(jsonObjectPersonalInfo.getString("_lastName"));
+        personalInfo.setGender(jsonObjectPersonalInfo.getString("_gender"));
+        personalInfo.setDateOfBirth(jsonObjectPersonalInfo.getLong("_dateOfBirth"));
+        personalInfo.setZipCode(jsonObjectPersonalInfo.getInt("_zipCode"));
+        pupil.setPersonalInfo(personalInfo);
+
+        Experience experience = new Experience();
+        JSONObject jsonObjectExperience = json.getJSONObject("_experience");
+        experience.setLevel(jsonObjectExperience.getInt("_level"));
+        experience.setNutritionXP(jsonObjectExperience.getInt("_nutritionXP"));
+        experience.setActivityXP(jsonObjectExperience.getInt("_activityXP"));
+        experience.setSocialXP(jsonObjectExperience.getInt("_socialXP"));
+        experience.setTicket(jsonObjectExperience.getInt("_ticket"));
+        experience.setXPForCalories(jsonObjectExperience.getBoolean("_XPForCalories"));
+        experience.setXPForProtein(jsonObjectExperience.getBoolean("_XPForProtein"));
+        experience.setXPForCarbs(jsonObjectExperience.getBoolean("_XPForCarbs"));
+        experience.setXPForFat(jsonObjectExperience.getBoolean("_XPForFat"));
+        pupil.setExperience(experience);
+
+        return pupil;
     }
 }
