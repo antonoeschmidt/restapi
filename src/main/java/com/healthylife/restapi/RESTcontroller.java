@@ -52,15 +52,7 @@ public class RESTcontroller {
     public String newTestpost(@RequestBody String testObject) throws ExecutionException, InterruptedException {
         JSONObject json = new JSONObject(testObject);
         System.out.println(json);
-
-//        TestObject testObject1 = new TestObject("testName",10);
-//        JSONObject json1 = new JSONObject(testObject1.toString());
-//        System.out.println(json1);
-
        return firebaseService.testPost(json);
-//        return testObject.toString();
-
-//        return json.toString();
     }
 
     @GetMapping("/getuser")
