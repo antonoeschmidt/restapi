@@ -57,15 +57,9 @@ public class RESTcontroller {
 
     @GetMapping("/getuser")
     public String getUser() {
-
-
+        //TODO: implement this
         return "get user";
     }
-
-//    @GetMapping("/getallusers")
-//    public List<String> getAllUsers() throws InterruptedException {
-//        return firebaseService.getAllUsers();
-//    }
 
     @GetMapping("/getallusers")
     public List<Pupil> getAllUsers() throws InterruptedException {
