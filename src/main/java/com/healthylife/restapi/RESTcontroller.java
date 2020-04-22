@@ -7,6 +7,8 @@ import com.healthylife.restapi.model.TestObject;
 import com.healthylife.restapi.model.User;
 import com.healthylife.restapi.service.FirebaseService;
 import kong.unirest.json.JSONObject;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.params.HttpParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,9 @@ import java.util.concurrent.ExecutionException;
 
 import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.Brugeradmin;
+import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition;
+
+import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201",
         "http://localhost:4204", "https://antonoeschmidt.github.io"})
@@ -52,11 +57,11 @@ public class RESTcontroller {
     public String newTestpost(@RequestBody String testObject) throws ExecutionException, InterruptedException {
         JSONObject json = new JSONObject(testObject);
         System.out.println(json);
-       return firebaseService.testPost(json);
+        return firebaseService.testPost(json);
     }
 
     @GetMapping("/getuser")
-    public String getUser() {
+    public String getUser(String userName) {
         //TODO: implement this
         return "get user";
     }
@@ -64,6 +69,13 @@ public class RESTcontroller {
     @GetMapping("/getallusers")
     public List<Pupil> getAllUsers() throws InterruptedException {
         return firebaseService.getAllUsers();
+    }
+
+    @DeleteMapping("/deleteuser")
+    @ResponseBody
+    public boolean deleteUser(@RequestParam(name = "uid") String uid) throws InterruptedException{
+        System.out.println(uid);
+        return firebaseService.deleteUser(uid);
     }
 
 

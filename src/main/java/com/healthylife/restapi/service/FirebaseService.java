@@ -16,6 +16,8 @@ import java.util.concurrent.Semaphore;
 @Service
 public class FirebaseService {
 
+    private boolean userDeleted;
+
     public String postData(User user) throws ExecutionException, InterruptedException {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference(user.getUID());
@@ -94,6 +96,42 @@ public class FirebaseService {
 
         return users;
     }
+
+    public boolean deleteUser(String uid) throws InterruptedException {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+
+        final Semaphore awaitResponse = new Semaphore(0);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).exists()) {
+                    System.out.println("User NOT Deleted");
+                    userDeleted = false;
+                } else {
+                    System.out.println("User Deleted");
+                    userDeleted = true;
+                }
+                awaitResponse.release();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        DatabaseReference.CompletionListener completionListener = new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+            }
+        };
+        ref.child(uid).removeValue(completionListener);
+        awaitResponse.acquire();
+        return userDeleted;
+    }
+
 
     public Pupil JSONtoPupil(JSONObject json) {
 
