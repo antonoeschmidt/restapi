@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>galgeleg1</artifactId>
-        <groupId>com.galgeleg.for1</groupId>
+        <artifactId>restapi</artifactId>
+        <groupId>com.healthylife</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -22,7 +22,6 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>galgeleg.GalgeServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

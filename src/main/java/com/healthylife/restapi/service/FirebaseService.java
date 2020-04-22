@@ -103,28 +103,27 @@ public class FirebaseService {
 
         final Semaphore awaitResponse = new Semaphore(0);
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(uid).exists()) {
-                    System.out.println("User NOT Deleted");
-                    userDeleted = false;
-                } else {
-                    System.out.println("User Deleted");
-                    userDeleted = true;
-                }
-                awaitResponse.release();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
         DatabaseReference.CompletionListener completionListener = new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.child(uid).exists()) {
+                            System.out.println("User NOT Deleted");
+                            userDeleted = false;
+                        } else {
+                            System.out.println("User Deleted");
+                            userDeleted = true;
+                        }
+                        awaitResponse.release();
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        awaitResponse.release();
+                    }
+                });
             }
         };
         ref.child(uid).removeValue(completionListener);
