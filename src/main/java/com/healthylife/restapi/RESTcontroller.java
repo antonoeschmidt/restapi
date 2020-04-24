@@ -1,5 +1,7 @@
 package com.healthylife.restapi;
 
+import brugerautorisation.data.Bruger;
+import brugerautorisation.transport.rmi.Brugeradmin;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.api.client.json.Json;
 import com.healthylife.restapi.model.Pupil;
@@ -16,8 +18,6 @@ import java.rmi.Naming;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import brugerautorisation.data.Bruger;
-import brugerautorisation.transport.rmi.Brugeradmin;
 import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition;
 
 import javax.servlet.http.HttpServletRequest;

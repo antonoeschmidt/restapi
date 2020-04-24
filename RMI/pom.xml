@@ -11,10 +11,33 @@
 
     <artifactId>RMI</artifactId>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <start-class>brugerautorisation.transport.Main</start-class>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
-                <!-- Build an executable JAR -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.2.6.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <!--
+        <build>
+            <plugins>
+                <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
@@ -22,12 +45,14 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
+                            <main-class></main-class>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    -->
 
 
 
