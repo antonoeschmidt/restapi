@@ -23,16 +23,6 @@ public class FirebaseService {
 
     private boolean userDeleted;
 
-    //TODO: Kan vi slette?
-    public String postData(User user) throws ExecutionException, InterruptedException {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference(user.getUID());
-//        ApiFuture<Void> apiFuture =
-        ref.setValueAsync(user);
-//        return apiFuture.get().toString();
-        return "posted";
-    }
-
     public String updateUser(JSONObject json) throws ExecutionException, InterruptedException {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
