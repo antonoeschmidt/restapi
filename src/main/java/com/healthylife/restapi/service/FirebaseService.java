@@ -23,6 +23,7 @@ public class FirebaseService {
 
     private boolean userDeleted;
 
+    //TODO: Kan vi slette?
     public String postData(User user) throws ExecutionException, InterruptedException {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference(user.getUID());
@@ -49,7 +50,8 @@ public class FirebaseService {
         //then inserts that uid into user and updates
         Pupil user = JSONtoPupil(json);
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setEmail(user.getUsername());
+                .setEmail(user.getUsername())
+                .setPassword(user.getPassword());
         UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
         System.out.println("Successfully created new user: " + userRecord.getUid());
         user.setUID(userRecord.getUid());
@@ -58,36 +60,6 @@ public class FirebaseService {
         myRef.setValueAsync(user);
         return json.toString();
     }
-
-// virker med at få alle strings ned her:
-//    public List<String> getAllUsers() throws InterruptedException {
-//        List<String> users = new ArrayList<>();
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference ref = database.getReference();
-//
-//        final Semaphore awaitResponse = new Semaphore(0);
-//
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    for (DataSnapshot d : dataSnapshot.getChildren()) {
-//                        users.add(d.getKey());
-//                    }
-//                }
-//                System.out.println(users.toString());
-//                awaitResponse.release();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                awaitResponse.release();
-//            }
-//        });
-//        awaitResponse.acquire();
-//
-//        return users;
-//    }
 
     public List<Pupil> getAllUsers() throws InterruptedException {
         List<Pupil> users = new ArrayList<>();
@@ -119,6 +91,7 @@ public class FirebaseService {
         return users;
     }
 
+    //Den er fin
     public boolean deleteUser(String uid) throws InterruptedException {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
@@ -155,6 +128,7 @@ public class FirebaseService {
     }
 
 
+    //TODO:Stadig finde ud af om kan gøres uden hardcode
     public Pupil JSONtoPupil(JSONObject json) {
 
         String s = json.toString();
@@ -199,3 +173,34 @@ public class FirebaseService {
         return pupil;
     }
 }
+
+
+// virker med at få alle strings ned her:
+//    public List<String> getAllUsers() throws InterruptedException {
+//        List<String> users = new ArrayList<>();
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference ref = database.getReference();
+//
+//        final Semaphore awaitResponse = new Semaphore(0);
+//
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+//                        users.add(d.getKey());
+//                    }
+//                }
+//                System.out.println(users.toString());
+//                awaitResponse.release();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                awaitResponse.release();
+//            }
+//        });
+//        awaitResponse.acquire();
+//
+//        return users;
+//    }

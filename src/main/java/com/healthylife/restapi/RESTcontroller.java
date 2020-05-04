@@ -49,11 +49,14 @@ public class RESTcontroller {
         return false;
     }
 
+
+    //TODO: Kan vi slette?
     @PostMapping("/testpost")
     public String testpost(@RequestBody User user) throws ExecutionException, InterruptedException {
         return firebaseService.postData(user);
     }
 
+    //TODO:Skal denne her være 'PUT'?
     @PostMapping("/saveuser")
     public String newTestpost(@RequestBody String testObject) throws ExecutionException, InterruptedException {
         testObject = testObject.replace("_","");
@@ -62,6 +65,7 @@ public class RESTcontroller {
         return firebaseService.testPost(json);
     }
 
+    //TODO:Skal denne her være 'POST'?
     @PutMapping("/createUser")
     public String createUser(@RequestBody String user) throws FirebaseAuthException {
         user = user.replace("_","");
@@ -70,6 +74,7 @@ public class RESTcontroller {
         return firebaseService.createUser(json);
     }
 
+    //TODO: Samme logic som delete, easy implimentation
     @GetMapping("/getuser")
     public String getUser(String userName) {
         //TODO: implement this
