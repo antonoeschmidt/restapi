@@ -2,6 +2,7 @@ package com.healthylife.restapi;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.api.client.json.Json;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.healthylife.restapi.model.Pupil;
 import com.healthylife.restapi.model.TestObject;
 import com.healthylife.restapi.model.User;
@@ -55,9 +56,18 @@ public class RESTcontroller {
 
     @PostMapping("/saveuser")
     public String newTestpost(@RequestBody String testObject) throws ExecutionException, InterruptedException {
+        testObject = testObject.replace("_","");
         JSONObject json = new JSONObject(testObject);
         System.out.println(json);
         return firebaseService.testPost(json);
+    }
+
+    @PutMapping("/createUser")
+    public String createUser(@RequestBody String user) throws FirebaseAuthException {
+        user = user.replace("_","");
+        JSONObject json = new JSONObject(user);
+        System.out.println(json);
+        return firebaseService.createUser(json);
     }
 
     @GetMapping("/getuser")
