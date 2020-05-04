@@ -4,6 +4,7 @@ import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.Brugeradmin;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.api.client.json.Json;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.healthylife.restapi.model.Pupil;
 import com.healthylife.restapi.model.TestObject;
 import com.healthylife.restapi.model.User;
@@ -48,18 +49,32 @@ public class RESTcontroller {
         return false;
     }
 
+
+    //TODO: Kan vi slette?
     @PostMapping("/testpost")
     public String testpost(@RequestBody User user) throws ExecutionException, InterruptedException {
         return firebaseService.postData(user);
     }
 
+    //TODO:Skal denne her være 'PUT'?
     @PostMapping("/saveuser")
     public String newTestpost(@RequestBody String testObject) throws ExecutionException, InterruptedException {
+        testObject = testObject.replace("_","");
         JSONObject json = new JSONObject(testObject);
         System.out.println(json);
         return firebaseService.testPost(json);
     }
 
+    //TODO:Skal denne her være 'POST'?
+    @PutMapping("/createUser")
+    public String createUser(@RequestBody String user) throws FirebaseAuthException {
+        user = user.replace("_","");
+        JSONObject json = new JSONObject(user);
+        System.out.println(json);
+        return firebaseService.createUser(json);
+    }
+
+    //TODO: Samme logic som delete, easy implimentation
     @GetMapping("/getuser")
     public String getUser(String userName) {
         //TODO: implement this
