@@ -33,7 +33,7 @@ public class FirebaseService {
         return "posted";
     }
 
-    public String testPost(JSONObject json) throws ExecutionException, InterruptedException {
+    public String updateUser(JSONObject json) throws ExecutionException, InterruptedException {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference(json.getString("uid"));
