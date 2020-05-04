@@ -11,7 +11,6 @@ import com.healthylife.restapi.model.User;
 import com.healthylife.restapi.service.FirebaseService;
 import kong.unirest.json.JSONObject;
 import org.apache.http.client.methods.HttpHead;
-import org.apache.http.params.HttpParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
